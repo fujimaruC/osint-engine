@@ -1,10 +1,13 @@
-# 📦 OSINT Engine Core Library (`/core`)
+<!-- Font Awesome Link for rendering icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+# <i class="fa-solid fa-box"></i> OSINT Engine Core Library (`/core`)
 
 This directory houses the core components of the OSINT Engine. These modules are responsible for scan profiles, formatting outputs, operational safety (scoping & disclaimers), operational security (proxies & Tor), audit logging, and Traffic Light Protocol labeling.
 
 ---
 
-## 📋 Module Overview
+## <i class="fa-solid fa-clipboard-list"></i> Module Overview
 
 | File | Primary Purpose | Key Dependencies | Output / State Files |
 | :--- | :--- | :--- | :--- |
@@ -20,9 +23,9 @@ This directory houses the core components of the OSINT Engine. These modules are
 
 ---
 
-## 🛠️ Module API Specifications
+## <i class="fa-solid fa-screwdriver-wrench"></i> Module API Specifications
 
-### ⚖️ Legal Disclaimer (`disclaimer.py`)
+### <i class="fa-solid fa-scale-balanced"></i> Legal Disclaimer (`disclaimer.py`)
 Intercepts program execution until terms are accepted.
 
 *   `is_accepted() -> bool`
@@ -34,7 +37,7 @@ Intercepts program execution until terms are accepted.
 
 ---
 
-### 🛡️ Scope Guard (`scope.py`)
+### <i class="fa-solid fa-shield-halved"></i> Scope Guard (`scope.py`)
 Protects against unauthorized scans.
 
 *   `ensure_scope_file()`
@@ -53,7 +56,7 @@ Protects against unauthorized scans.
 
 ---
 
-### 📝 Tamper-Evident Audit Logging (`audit.py`)
+### <i class="fa-solid fa-file-signature"></i> Tamper-Evident Audit Logging (`audit.py`)
 Implements block-chained SHA-256 logs for verification.
 
 *   `log_scan_start(target: str, profile: str, scan_id: str, target_type: str)`
@@ -69,7 +72,7 @@ Implements block-chained SHA-256 logs for verification.
 
 ---
 
-### 🌐 OPSEC Proxy & Tor Routing (`proxy.py`)
+### <i class="fa-solid fa-globe"></i> OPSEC Proxy & Tor Routing (`proxy.py`)
 Configures routing and checks operational security state.
 
 *   `configure_proxy(proxy_url: str | None = None, use_tor: bool = False) -> dict | None`
@@ -84,7 +87,7 @@ Configures routing and checks operational security state.
 
 ---
 
-### 🚥 Traffic Light Protocol (`tlp.py`)
+### <i class="fa-solid fa-traffic-light"></i> Traffic Light Protocol (`tlp.py`)
 Standardized NATO classifications (`WHITE`, `GREEN`, `AMBER`, `RED`) for outputs.
 
 *   `TLP_LEVELS` (Dictionary):
@@ -100,7 +103,7 @@ Standardized NATO classifications (`WHITE`, `GREEN`, `AMBER`, `RED`) for outputs
 
 ---
 
-### 📥 Batch Scan Controller (`batch.py`)
+### <i class="fa-solid fa-inbox"></i> Batch Scan Controller (`batch.py`)
 Sequential batch scanning orchestrator.
 
 *   `load_targets(filepath: str) -> list[str]`
@@ -120,7 +123,7 @@ Sequential batch scanning orchestrator.
 
 ---
 
-## 🚀 Recommended Integration Code Pattern
+## <i class="fa-solid fa-rocket"></i> Recommended Integration Code Pattern
 
 To tie all these new features together into the main runner (such as `engine.py`), use the following integration flow:
 

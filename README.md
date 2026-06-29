@@ -1,11 +1,14 @@
-# ⚡ OSINT Engine
+<!-- Font Awesome Link for rendering icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+# <i class="fa-solid fa-bolt"></i> OSINT Engine
 
 > Standalone SpiderFoot automation wrapper with a user-friendly Rich CLI, scan profiles, and multi-format reporting.
 > **by N-EX / Fujimaru | Kalimantan Timur**
 
 ---
 
-## 🚀 Quick Start
+## <i class="fa-solid fa-rocket"></i> Quick Start
 
 ```bash
 # 1. Clone / extract this folder
@@ -23,7 +26,7 @@ chmod +x setup.sh && ./setup.sh
 
 ---
 
-## 📁 Structure
+## <i class="fa-solid fa-folder-open"></i> Structure
 
 ```
 osint-engine/
@@ -54,7 +57,7 @@ osint-engine/
 
 ---
 
-## 🎯 Scan Profiles
+## <i class="fa-solid fa-bullseye"></i> Scan Profiles
 
 | Profile    | Description                               | Est. Time    |
 |------------|-------------------------------------------|--------------|
@@ -68,7 +71,7 @@ osint-engine/
 
 ---
 
-## 💻 Usage
+## <i class="fa-solid fa-laptop"></i> Usage
 
 ```bash
 # Basic scan
@@ -104,7 +107,7 @@ osint-engine/
 
 ---
 
-## 🔑 API Keys
+## <i class="fa-solid fa-key"></i> API Keys
 
 Copy `config.yaml.example` to `config.yaml` and fill in keys for:
 - **Shodan** — port/service data
@@ -117,7 +120,7 @@ More keys = more modules = better results. All keys are optional.
 
 ---
 
-## 📊 Reports
+## <i class="fa-solid fa-chart-column"></i> Reports
 
 Reports are saved in `./reports/` by default:
 
@@ -129,7 +132,7 @@ Reports are saved in `./reports/` by default:
 
 ---
 
-## 🔧 Requirements
+## <i class="fa-solid fa-wrench"></i> Requirements
 
 - Python 3.10+
 - git
@@ -141,7 +144,7 @@ Optional system tools (for active modules):
 
 ---
 
-## ⚙️ Custom Profiles
+## <i class="fa-solid fa-gear"></i> Custom Profiles
 
 Edit `profiles/profiles.yaml` to create your own profiles:
 
@@ -160,39 +163,39 @@ profiles:
 
 ---
 
-## 🛠️ Advanced Operations (Core Modules)
+## <i class="fa-solid fa-screwdriver-wrench"></i> Advanced Operations (Core Modules)
 
 The newly introduced modules in the `/core` directory add support for compliance, auditing, OPSEC proxying, bulk scanning, and report labeling:
 
-### ⚖️ Legal Disclaimer (`core/disclaimer.py`)
+### <i class="fa-solid fa-scale-balanced"></i> Legal Disclaimer (`core/disclaimer.py`)
 Ensures authorization compliance prior to execution. Before any scanning is performed, the user must consent to the legal terms:
 - **State Preservation:** Stores a hashed consent identifier in `.disclaimer_accepted` for each user so validation is only required once.
 - **Audit Integration:** Disclaimer acceptance is immediately recorded in the tamper-evident audit logs.
 
-### 🛡️ Allowed Scope Validation (`core/scope.py`)
+### <i class="fa-solid fa-shield-halved"></i> Allowed Scope Validation (`core/scope.py`)
 Restricts scanning strictly to authorized targets to prevent accidental out-of-scope probes:
 - **Scope File:** Defined in `scope.txt` (a default template is created automatically if missing).
 - **Rule Syntax:** Supports domains (`example.com`), subdomains (`*.example.com`), IPs, subnet ranges/CIDRs (`10.0.0.0/8`), email patterns (`*@example.com`), and wildcards (`*`).
 - **Safety Enforcement:** Blocks any scan attempting to probe a target not present in the allowed scope. An empty `scope.txt` defaults to allowing all targets for development convenience.
 
-### 📝 Tamper-Evident Audit Logging (`core/audit.py`)
+### <i class="fa-solid fa-file-signature"></i> Tamper-Evident Audit Logging (`core/audit.py`)
 Maintains a cryptographic chain-of-custody logging all operations in `audit.log`:
 - **Chained Hashing:** Each log entry (scan start, end, disclaimer acceptance) calculates a SHA-256 hash incorporating the previous entry's hash (`prev_hash`), making the log tamper-evident.
 - **Verification Engine:** Features a `verify_chain()` utility that checks for log line modifications, insertions, or deletions.
 - **File System Guard:** Dynamically locks file access (chmod 0444 read-only / 0644 read-write) to restrict manual modification.
 
-### 🌐 OPSEC Proxy & Tor Routing (`core/proxy.py`)
+### <i class="fa-solid fa-globe"></i> OPSEC Proxy & Tor Routing (`core/proxy.py`)
 Secures network traffic and preserves anonymity during scans:
 - **Tor Native Support:** Configures SOCKS5 and Tor client redirection (`socks5h://127.0.0.1:9050`).
 - **Pre-flight Checks:** Verifies proxy/Tor availability via `check.torproject.org` and queries current exit IP via `api.ipify.org` before execution.
 - **Proxy Configuration:** Automatically configures standard environment proxy variables (`OSINT_PROXY`, `HTTP_PROXY`, `HTTPS_PROXY`).
 
-### 🚥 Traffic Light Protocol (`core/tlp.py`)
+### <i class="fa-solid fa-traffic-light"></i> Traffic Light Protocol (`core/tlp.py`)
 Applies data distribution labels to output reports based on the NATO/FIRST standards:
 - **Classifications:** Supports `TLP:RED` (strictly confidential), `TLP:AMBER` (limited internal), `TLP:GREEN` (community-limited), and `TLP:WHITE` (public).
 - **Visual Branding:** Generates HTML banners and footers embedded with correct color coding, operator metadata, and sharing restrictions.
 
-### 📥 Bulk Batch Scanning (`core/batch.py`)
+### <i class="fa-solid fa-inbox"></i> Bulk Batch Scanning (`core/batch.py`)
 Supports automated scanning of multiple targets:
 - **Batch Files:** Loads targets from plain-text files (supports comments with `#`).
 - **Control Flow:** Progresses sequentially, polling SpiderFoot REST API, enforcing delays between targets, and exporting HTML, JSON, and CSV reports.
@@ -200,7 +203,7 @@ Supports automated scanning of multiple targets:
 
 ---
 
-## 🛡️ Legal & Ethics
+## <i class="fa-solid fa-shield-halved"></i> Legal & Ethics
 
 Use this tool only against targets you have explicit permission to test.
 Unauthorized scanning is illegal and unethical. The authors are not responsible for misuse.
