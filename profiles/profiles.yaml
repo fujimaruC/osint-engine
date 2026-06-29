@@ -1,0 +1,162 @@
+# ╔════════════════════════════════════╗
+# ║  OSINT Engine — Scan Profiles      ║
+# ╚════════════════════════════════════╝
+# Each profile defines which SpiderFoot modules to activate.
+# Add/remove modules based on what API keys you have.
+
+profiles:
+  # ── Quick Passive ────────────────────────────────────────────
+  quick:
+    name: "Quick Passive"
+    description: "Fast, low-noise OSINT. DNS, WHOIS, basic recon only."
+    estimated_time: "1-5 min"
+    modules:
+      - sfp_dnsresolve
+      - sfp_dnsbrute
+      - sfp_whois
+      - sfp_ssl
+      - sfp_arin
+      - sfp_ipinfo
+      - sfp_subdomainbrute
+      - sfp_hunter
+      - sfp_pgp
+      - sfp_ripe
+
+  # ── Passive Recon ────────────────────────────────────────────
+  passive:
+    name: "Full Passive"
+    description: "Comprehensive passive recon — no active probing, safe for stealth."
+    estimated_time: "5-20 min"
+    modules:
+      - sfp_dnsresolve
+      - sfp_dnsbrute
+      - sfp_whois
+      - sfp_ssl
+      - sfp_arin
+      - sfp_ipinfo
+      - sfp_subdomainbrute
+      - sfp_hunter
+      - sfp_pgp
+      - sfp_ripe
+      - sfp_certspotter
+      - sfp_crt
+      - sfp_hackertarget
+      - sfp_urlscan
+      - sfp_dnshistory
+      - sfp_emailformat
+      - sfp_builtwith
+      - sfp_netcraft
+      - sfp_pastebin
+      - sfp_github
+      - sfp_leakix
+      - sfp_threatminer
+      - sfp_virustotal
+      - sfp_robtex
+      - sfp_threatcrowd
+      - sfp_waybackmachine
+
+  # ── Active Recon ─────────────────────────────────────────────
+  deep:
+    name: "Deep Active"
+    description: "Active + passive recon. Port scans, banner grabbing, crawling."
+    estimated_time: "20-60 min"
+    modules:
+      - sfp_dnsresolve
+      - sfp_dnsbrute
+      - sfp_whois
+      - sfp_ssl
+      - sfp_arin
+      - sfp_ipinfo
+      - sfp_subdomainbrute
+      - sfp_hunter
+      - sfp_pgp
+      - sfp_ripe
+      - sfp_certspotter
+      - sfp_crt
+      - sfp_hackertarget
+      - sfp_urlscan
+      - sfp_dnshistory
+      - sfp_emailformat
+      - sfp_builtwith
+      - sfp_netcraft
+      - sfp_pastebin
+      - sfp_github
+      - sfp_leakix
+      - sfp_threatminer
+      - sfp_virustotal
+      - sfp_robtex
+      - sfp_waybackmachine
+      - sfp_portscan_tcp
+      - sfp_banner
+      - sfp_spider
+      - sfp_xforce
+      - sfp_alienvault
+      - sfp_shodan
+      - sfp_censys
+      - sfp_zoomeye
+      - sfp_dnstxt
+      - sfp_open_passive_dns_database
+
+  # ── Full / All Modules ────────────────────────────────────────
+  full:
+    name: "Full Comprehensive"
+    description: "All non-destructive modules. Requires API keys for best results."
+    estimated_time: "60-180 min"
+    modules: []  # Empty = use ALL available modules in SF
+
+  # ── CTF / Bug Bounty ─────────────────────────────────────────
+  ctf:
+    name: "CTF / Bug Bounty"
+    description: "Optimized for CTF recon and bug bounty scope enumeration."
+    estimated_time: "10-30 min"
+    modules:
+      - sfp_dnsresolve
+      - sfp_dnsbrute
+      - sfp_subdomainbrute
+      - sfp_ssl
+      - sfp_crt
+      - sfp_certspotter
+      - sfp_hackertarget
+      - sfp_github
+      - sfp_urlscan
+      - sfp_waybackmachine
+      - sfp_emailformat
+      - sfp_portscan_tcp
+      - sfp_banner
+      - sfp_spider
+      - sfp_pastebin
+      - sfp_leakix
+      - sfp_whois
+
+  # ── Email Investigation ───────────────────────────────────────
+  email:
+    name: "Email Investigation"
+    description: "Focused on email targets — breach data, social profiles, PGP."
+    estimated_time: "5-15 min"
+    target_type_hint: EMAILADDR
+    modules:
+      - sfp_hunter
+      - sfp_pgp
+      - sfp_emailformat
+      - sfp_haveibeenpwned
+      - sfp_dehashed
+      - sfp_pastebin
+      - sfp_whois
+      - sfp_github
+      - sfp_leakix
+
+  # ── Username OSINT ────────────────────────────────────────────
+  username:
+    name: "Username OSINT"
+    description: "Track a username across platforms and social networks."
+    estimated_time: "5-15 min"
+    target_type_hint: USERNAME
+    modules:
+      - sfp_accounts
+      - sfp_github
+      - sfp_twitter
+      - sfp_reddit
+      - sfp_keybase
+      - sfp_gravatar
+      - sfp_pastebin
+      - sfp_pgp

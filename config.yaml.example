@@ -1,0 +1,55 @@
+# ╔════════════════════════════════════════════════════════╗
+# ║  OSINT Engine — API Keys Configuration                 ║
+# ║  Copy to config.yaml and fill in your keys             ║
+# ╚════════════════════════════════════════════════════════╝
+# 
+# These keys are passed to SpiderFoot modules.
+# Leave blank ("") if you don't have the key — those modules
+# will be skipped automatically by SpiderFoot.
+#
+# To apply: setup.sh will auto-configure these into SpiderFoot.
+
+api_keys:
+  # ── Threat Intelligence ─────────────────────────────────
+  virustotal: ""          # https://www.virustotal.com/gui/my-apikey
+  shodan: ""              # https://account.shodan.io/
+  censys_id: ""           # https://search.censys.io/account/api
+  censys_secret: ""
+  zoomeye: ""             # https://www.zoomeye.org/profile
+
+  # ── Data Breach ─────────────────────────────────────────
+  haveibeenpwned: ""      # https://haveibeenpwned.com/API/Key
+  dehashed_email: ""      # https://www.dehashed.com/
+  dehashed_key: ""
+  leakix: ""              # https://leakix.net/
+
+  # ── Passive DNS / Recon ─────────────────────────────────
+  hunter: ""              # https://hunter.io/api-keys
+  urlscan: ""             # https://urlscan.io/user/
+  securitytrails: ""      # https://securitytrails.com/app/account/credentials
+  binaryedge: ""          # https://app.binaryedge.io/account/profile
+  riskiq_user: ""         # https://community.riskiq.com/
+  riskiq_key: ""
+
+  # ── Social / OSINT ───────────────────────────────────────
+  github: ""              # https://github.com/settings/tokens
+  twitter_bearer: ""      # https://developer.twitter.com/
+  fullcontact: ""         # https://dashboard.fullcontact.com/
+
+  # ── Spam / Blacklist ────────────────────────────────────
+  abuseipdb: ""           # https://www.abuseipdb.com/account/api
+  alienvault_otx: ""      # https://otx.alienvault.com/api
+
+# ── SpiderFoot Backend ─────────────────────────────────────
+spiderfoot:
+  host: "127.0.0.1"
+  port: 5001
+  startup_timeout: 45     # seconds to wait for SF to start
+
+# ── Output ────────────────────────────────────────────────
+output:
+  reports_dir: "./reports"
+  default_formats:
+    - html
+    - json
+    - csv
