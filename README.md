@@ -1,4 +1,4 @@
-# ⚡ OSINT Engine
+# OSINT Engine
 
 > **Gather intelligence on any domain, IP, email, or username — all from your terminal.**
 > No hacking skills required. Just point it at a target and let it work.
@@ -7,7 +7,7 @@
 
 ---
 
-## 🤔 What is this?
+## What is this?
 
 **OSINT Engine** is a tool that automatically searches the internet for publicly available information about a target — such as a website, an IP address, an email address, or a username.
 
@@ -27,7 +27,7 @@ Think of it as a **super-powered Google search** that looks across dozens of dat
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 Before you start, make sure you have the following installed:
 
@@ -39,7 +39,7 @@ Before you start, make sure you have the following installed:
 
 ---
 
-## 🚀 Getting Started (First Time Setup)
+## Getting Started (First Time Setup)
 
 Open your terminal and follow these 3 steps:
 
@@ -59,11 +59,11 @@ That's it. The tool will start scanning and save a report when it's done.
 
 ---
 
-## 📖 Basic Usage
+## Basic Usage
 
 All commands start with `./osint`. Here are the most common ones:
 
-### 🔎 Scanning a Target
+### Scanning a Target
 
 ```bash
 # Scan a website (quick scan — done in ~1-5 minutes)
@@ -91,7 +91,7 @@ All commands start with `./osint`. Here are the most common ones:
 ./osint scan -t target.ctf.com -p ctf
 ```
 
-### 🧙 Interactive Wizard (Recommended for Beginners)
+### Interactive Wizard (Recommended for Beginners)
 
 Not sure which options to pick? Use the guided wizard:
 
@@ -107,7 +107,7 @@ The wizard will ask you what you want to scan, pick a profile, and walk you thro
 
 ---
 
-## 🎯 Scan Profiles Explained
+## Scan Profiles Explained
 
 A **profile** controls *how much* the tool scans. Pick based on how much time you have and how noisy you want to be.
 
@@ -128,16 +128,16 @@ A **profile** controls *how much* the tool scans. Pick based on how much time yo
 
 ---
 
-## 📦 More Useful Commands
+## More Useful Commands
 
-### 📊 Check Status & Active Scans
+### Check Status & Active Scans
 
 ```bash
 # See if the backend is running and list recent scans
 ./osint status
 ```
 
-### 📋 Get Results from a Previous Scan
+### Get Results from a Previous Scan
 
 ```bash
 # Replace <scan_id> with the ID shown after your scan starts
@@ -147,7 +147,7 @@ A **profile** controls *how much* the tool scans. Pick based on how much time yo
 ./osint results abc123xyz
 ```
 
-### 🛑 Stop a Running Scan
+### Stop a Running Scan
 
 ```bash
 # Stop a scan that's in progress
@@ -157,7 +157,7 @@ A **profile** controls *how much* the tool scans. Pick based on how much time yo
 ./osint stop abc123xyz
 ```
 
-### 📄 Control Report Formats
+### Control Report Formats
 
 By default, reports are saved as HTML, JSON, and CSV. You can skip formats you don't need:
 
@@ -174,7 +174,7 @@ By default, reports are saved as HTML, JSON, and CSV. You can skip formats you d
 
 ---
 
-## 📂 Where are my reports?
+## Where are my reports?
 
 Reports are saved automatically in the `./reports/` folder inside the project directory.
 
@@ -196,7 +196,7 @@ osint-engine/
 
 ---
 
-## 🔑 Optional: Add API Keys for Better Results
+## Optional: Add API Keys for Better Results
 
 The tool works **without any API keys** — but adding free keys unlocks more modules and deeper results.
 
@@ -229,7 +229,7 @@ Then fill in any keys you have. Each line has a link to where you can get a free
 
 ---
 
-## 🌐 Privacy Mode (Scanning Anonymously via Tor)
+## Privacy Mode (Scanning Anonymously via Tor)
 
 If you want to hide your IP while scanning, you can route scans through **Tor**:
 
@@ -248,7 +248,7 @@ sudo apt install tor && sudo systemctl start tor
 
 ---
 
-## 📦 Batch Scanning (Multiple Targets at Once)
+## Batch Scanning (Multiple Targets at Once)
 
 You can scan a list of targets from a text file:
 
@@ -272,7 +272,7 @@ EOF
 
 ---
 
-## 📁 Project Structure (For the Curious)
+## Project Structure (For the Curious)
 
 ```
 osint-engine/
@@ -302,7 +302,7 @@ osint-engine/
 
 ---
 
-## ❓ Troubleshooting
+## Troubleshooting
 
 **Setup failed / permission denied?**
 ```bash
@@ -341,7 +341,7 @@ chmod +x osint
 
 ---
 
-## 🛡️ Legal & Ethics
+## Legal & Ethics
 
 > [!CAUTION]
 > **Only scan targets you own or have written permission to test.**
@@ -349,15 +349,15 @@ chmod +x osint
 > The authors of this tool are **not responsible** for any misuse.
 
 **Acceptable use:**
-- 🏠 Domains and servers you own
-- 🐛 Bug bounty programs (within their defined scope)
-- 🎮 CTF (Capture The Flag) challenge targets
-- 🔬 Security research on test environments
-- 🔍 Investigating your own digital footprint
+- Domains and servers you own
+- Bug bounty programs (within their defined scope)
+- CTF (Capture The Flag) challenge targets
+- Security research on test environments
+- Investigating your own digital footprint
 
 ---
 
-## 👏 Credits
+## Credits
 
 Built on top of [SpiderFoot](https://github.com/smicallef/spiderfoot) — the open-source OSINT automation platform.
 
