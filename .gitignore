@@ -1,0 +1,16 @@
+.agent/
+
+config.yaml
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+reports/
+
+tools/spiderfoot/spiderfoot.db
+tools/spiderfoot/*.db
+tools/spiderfoot/
+
+.DS_Store
