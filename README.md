@@ -1,212 +1,367 @@
-<!-- Font Awesome Link for rendering icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+# ⚡ OSINT Engine
 
-# <i class="fa-solid fa-bolt"></i> OSINT Engine
-
-> Standalone SpiderFoot automation wrapper with a user-friendly Rich CLI, scan profiles, and multi-format reporting.
-> **by N-EX / Fujimaru | Kalimantan Timur**
+> **Gather intelligence on any domain, IP, email, or username — all from your terminal.**
+> No hacking skills required. Just point it at a target and let it work.
+>
+> *by N-EX / Fujimaru | Kalimantan Timur*
 
 ---
 
-## <i class="fa-solid fa-rocket"></i> Quick Start
+## 🤔 What is this?
+
+**OSINT Engine** is a tool that automatically searches the internet for publicly available information about a target — such as a website, an IP address, an email address, or a username.
+
+Think of it as a **super-powered Google search** that looks across dozens of databases, security registries, DNS records, and leak archives — and compiles everything into a clean report.
+
+**What can it find?**
+
+| 🔍 You give it… | 📋 It can tell you… |
+|-----------------|---------------------|
+| A domain (`example.com`) | Who owns it, where it's hosted, subdomains, open ports, SSL cert history, archived pages |
+| An IP address (`8.8.8.8`) | What services are running, geographic location, abuse reports, ASN/ISP info |
+| An email (`user@example.com`) | Data breach history, linked accounts, PGP keys, social profiles |
+| A username (`n-ex`) | Accounts on GitHub, Twitter, Reddit, Keybase, Gravatar, Pastebin leaks |
+
+> ⚠️ **Only use this on targets you own or have explicit permission to investigate.**
+> Unauthorized scanning is illegal. This tool is for defenders, security researchers, and CTF players only.
+
+---
+
+## ✅ Requirements
+
+Before you start, make sure you have the following installed:
+
+- **Python 3.10 or newer** — [Download here](https://www.python.org/downloads/)
+- **git** — [Download here](https://git-scm.com/)
+- An internet connection
+
+> 💡 On Linux/macOS these are usually already installed. Check with `python3 --version` and `git --version`.
+
+---
+
+## 🚀 Getting Started (First Time Setup)
+
+Open your terminal and follow these 3 steps:
 
 ```bash
-# 1. Clone / extract this folder
+# Step 1 — Go into the project folder
 cd osint-engine
 
-# 2. One-shot setup (creates venv + clones SpiderFoot)
+# Step 2 — Run the automatic setup script
+#          (This installs everything — takes about 1–2 minutes)
 chmod +x setup.sh && ./setup.sh
 
-# 3. Run a scan
+# Step 3 — Run your first scan!
+./osint scan -t example.com -p quick
+```
+
+That's it. The tool will start scanning and save a report when it's done.
+
+---
+
+## 📖 Basic Usage
+
+All commands start with `./osint`. Here are the most common ones:
+
+### 🔎 Scanning a Target
+
+```bash
+# Scan a website (quick scan — done in ~1-5 minutes)
+./osint scan -t example.com -p quick
+
+# Scan a website (full passive — done in ~5-20 minutes, no active probing)
 ./osint scan -t example.com -p passive
 
-# 4. Interactive wizard
+# Scan a website (deep active — ports, banners, crawling — 20-60 minutes)
+./osint scan -t example.com -p deep
+
+# Scan an IP address
+./osint scan -t 192.168.1.1 -p quick
+
+# Scan a public IP (e.g., Google's DNS)
+./osint scan -t 8.8.8.8 -p passive
+
+# Investigate an email address
+./osint scan -t user@company.com -p email
+
+# Track a username across the internet
+./osint scan -t "johndoe" -p username
+
+# Scan a CTF or bug bounty target (optimized recon)
+./osint scan -t target.ctf.com -p ctf
+```
+
+### 🧙 Interactive Wizard (Recommended for Beginners)
+
+Not sure which options to pick? Use the guided wizard:
+
+```bash
+# Launch the step-by-step interactive wizard
 ./osint scan --interactive
+
+# Short version — same thing
+./osint scan -i
+```
+
+The wizard will ask you what you want to scan, pick a profile, and walk you through it.
+
+---
+
+## 🎯 Scan Profiles Explained
+
+A **profile** controls *how much* the tool scans. Pick based on how much time you have and how noisy you want to be.
+
+| Profile | What it does | ⏱️ Time | 🔊 Noise Level |
+|---------|-------------|---------|---------------|
+| `quick` | DNS, WHOIS, SSL only — bare basics | 1–5 min | 🟢 Silent |
+| `passive` | All passive sources — no direct contact with target | 5–20 min | 🟢 Silent |
+| `deep` | Port scanning, banner grabbing, web crawling | 20–60 min | 🟡 Moderate |
+| `full` | Every single module — kitchen sink | 60–180 min | 🔴 Loud |
+| `ctf` | Tuned for CTF challenges and bug bounties | 10–30 min | 🟡 Moderate |
+| `email` | Focused on email + breach data + social | 5–15 min | 🟢 Silent |
+| `username` | Tracks a username across social platforms | 5–15 min | 🟢 Silent |
+
+```bash
+# See all available profiles in your terminal
+./osint profiles
 ```
 
 ---
 
-## <i class="fa-solid fa-folder-open"></i> Structure
+## 📦 More Useful Commands
+
+### 📊 Check Status & Active Scans
+
+```bash
+# See if the backend is running and list recent scans
+./osint status
+```
+
+### 📋 Get Results from a Previous Scan
+
+```bash
+# Replace <scan_id> with the ID shown after your scan starts
+./osint results <scan_id>
+
+# Example:
+./osint results abc123xyz
+```
+
+### 🛑 Stop a Running Scan
+
+```bash
+# Stop a scan that's in progress
+./osint stop <scan_id>
+
+# Example:
+./osint stop abc123xyz
+```
+
+### 📄 Control Report Formats
+
+By default, reports are saved as HTML, JSON, and CSV. You can skip formats you don't need:
+
+```bash
+# Save only HTML report (skip CSV and JSON)
+./osint scan -t example.com --no-csv --no-json
+
+# Save only CSV (good for importing to Excel or Google Sheets)
+./osint scan -t example.com --no-html --no-json
+
+# Save only JSON (for developers or scripting)
+./osint scan -t example.com --no-html --no-csv
+```
+
+---
+
+## 📂 Where are my reports?
+
+Reports are saved automatically in the `./reports/` folder inside the project directory.
 
 ```
 osint-engine/
-├── engine.py              # Main CLI entry point
-├── setup.sh               # One-shot environment setup
-├── osint                  # Wrapper script (created by setup.sh)
-├── requirements.txt       # Python dependencies
-├── config.yaml.example    # API keys template → copy to config.yaml
-│
-├── core/
-│   ├── audit.py           # Tamper-evident scan audit logging
-│   ├── batch.py           # Multi-target batch scan scheduler
-│   ├── disclaimer.py      # Legal disclaimer & user consent checker
-│   ├── profiles.py        # Scan profiles + target type detection
-│   ├── proxy.py           # Tor and proxy routing client (OPSEC)
-│   ├── reporter.py        # HTML / JSON / CSV exporter
-│   ├── scope.py           # Allowed scanning target scope validator
-│   ├── spiderfoot.py      # SpiderFoot REST API wrapper
-│   └── tlp.py             # Traffic Light Protocol report classification
-│
-├── profiles/
-│   └── profiles.yaml      # Scan profile definitions
-│
-├── reports/               # Generated reports (auto-created)
-└── tools/
-    └── spiderfoot/        # SpiderFoot clone (auto-created by setup.sh)
+└── reports/
+    ├── example.com_2024-01-15_quick.html   ← Open this in your browser
+    ├── example.com_2024-01-15_quick.json   ← Full data in JSON format
+    └── example.com_2024-01-15_quick.csv    ← Import to Excel/Sheets
 ```
 
----
+| File Type | Best for… |
+|-----------|-----------|
+| `.html` | Reading in your browser — dark theme, searchable, interactive |
+| `.json` | Developers or automated processing |
+| `.csv` | Importing into Excel, Google Sheets, or databases |
 
-## <i class="fa-solid fa-bullseye"></i> Scan Profiles
-
-| Profile    | Description                               | Est. Time    |
-|------------|-------------------------------------------|--------------|
-| `quick`    | Fast passive — DNS, WHOIS, SSL only       | 1–5 min      |
-| `passive`  | Full passive — no active probing (stealth)| 5–20 min     |
-| `deep`     | Active + passive — ports, crawling, banners | 20–60 min  |
-| `full`     | All modules                               | 60–180 min   |
-| `ctf`      | Optimized for CTF/Bug Bounty recon        | 10–30 min    |
-| `email`    | Email target — breaches, social, PGP      | 5–15 min     |
-| `username` | Username tracking across platforms        | 5–15 min     |
+> 💡 **Tip:** Just double-click the `.html` file to open it in your browser — no server needed.
 
 ---
 
-## <i class="fa-solid fa-laptop"></i> Usage
+## 🔑 Optional: Add API Keys for Better Results
+
+The tool works **without any API keys** — but adding free keys unlocks more modules and deeper results.
+
+### How to set up keys
 
 ```bash
-# Basic scan
-./osint scan -t example.com
+# Step 1 — Copy the template
+cp config.yaml.example config.yaml
 
-# Specific profile
-./osint scan -t 8.8.8.8 -p quick
+# Step 2 — Open it in a text editor
+nano config.yaml
+# or on macOS:
+open -e config.yaml
+```
 
-# Email target
-./osint scan -t user@example.com -p email
+Then fill in any keys you have. Each line has a link to where you can get a free key:
 
-# Username OSINT
-./osint scan -t "n-ex" -p username
+| Service | What it adds | Free Tier? |
+|---------|-------------|------------|
+| [Shodan](https://account.shodan.io/) | Open ports & services on any IP | ✅ Yes |
+| [VirusTotal](https://www.virustotal.com/gui/my-apikey) | Malware & threat intelligence | ✅ Yes |
+| [HaveIBeenPwned](https://haveibeenpwned.com/API/Key) | Email breach history | 💳 Paid |
+| [Hunter.io](https://hunter.io/api-keys) | Email discovery for domains | ✅ Yes (50/mo) |
+| [AbuseIPDB](https://www.abuseipdb.com/account/api) | IP abuse reports | ✅ Yes |
+| [AlienVault OTX](https://otx.alienvault.com/api) | Threat intelligence | ✅ Yes |
+| [URLScan.io](https://urlscan.io/user/) | Website scan history | ✅ Yes |
+| [SecurityTrails](https://securitytrails.com/app/account/credentials) | DNS history | ✅ Yes (50/mo) |
 
-# Interactive wizard
-./osint scan -i
+> 💡 You don't need all of them. Even 2–3 keys will significantly improve results.
 
-# List profiles
-./osint profiles
+---
 
-# Check backend status + recent scans
+## 🌐 Privacy Mode (Scanning Anonymously via Tor)
+
+If you want to hide your IP while scanning, you can route scans through **Tor**:
+
+```bash
+# First, install Tor (Linux)
+sudo apt install tor && sudo systemctl start tor
+
+# Then scan through Tor
+./osint scan -t example.com -p passive --tor
+
+# Check your exit IP before scanning
+./osint scan -t example.com --check-proxy
+```
+
+> ⚠️ Tor mode significantly slows down scans. Only use it when anonymity is important.
+
+---
+
+## 📦 Batch Scanning (Multiple Targets at Once)
+
+You can scan a list of targets from a text file:
+
+```bash
+# Create a targets file (one target per line)
+cat > targets.txt << EOF
+example.com
+testsite.org
+192.168.1.1
+user@example.com
+EOF
+
+# Scan all targets with the passive profile
+./osint scan --batch targets.txt -p passive
+
+# Scan all targets with the quick profile
+./osint scan --batch targets.txt -p quick
+```
+
+> 💡 Lines starting with `#` in the targets file are treated as comments and skipped.
+
+---
+
+## 📁 Project Structure (For the Curious)
+
+```
+osint-engine/
+├── engine.py              ← The brain of the tool
+├── setup.sh               ← First-time setup script
+├── osint                  ← The command you run (./osint)
+├── requirements.txt       ← Python package list
+├── config.yaml.example    ← Copy this to config.yaml for API keys
+│
+├── core/
+│   ├── profiles.py        ← Manages scan profiles
+│   ├── reporter.py        ← Generates your HTML/JSON/CSV reports
+│   ├── batch.py           ← Multi-target batch scanning
+│   ├── proxy.py           ← Tor/proxy anonymity support
+│   ├── audit.py           ← Scan history logging
+│   ├── scope.py           ← Target whitelist/restriction
+│   ├── disclaimer.py      ← Legal consent check
+│   └── tlp.py             ← Report classification labels
+│
+├── profiles/
+│   └── profiles.yaml      ← Edit this to customize scan profiles
+│
+├── reports/               ← Your scan reports appear here
+└── tools/
+    └── spiderfoot/        ← The scanning engine (auto-installed)
+```
+
+---
+
+## ❓ Troubleshooting
+
+**Setup failed / permission denied?**
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+**`./osint` command not found?**
+```bash
+# Make the wrapper executable
+chmod +x osint
+```
+
+**Scan takes too long?**
+```bash
+# Use a faster profile
+./osint scan -t example.com -p quick
+
+# Or stop it and try a lighter option
+./osint stop <scan_id>
+```
+
+**Backend not starting?**
+```bash
+# Check status and see error details
 ./osint status
 
-# Fetch results from existing scan
-./osint results <scan_id>
+# Re-run setup to fix the SpiderFoot installation
+./setup.sh
+```
 
-# Stop a running scan
-./osint stop <scan_id>
-
-# Skip certain exports
-./osint scan -t example.com --no-csv --no-json
+**Want to restart fresh?**
+```bash
+# Re-run setup (safe — won't delete your reports or config)
+./setup.sh
 ```
 
 ---
 
-## <i class="fa-solid fa-key"></i> API Keys
+## 🛡️ Legal & Ethics
 
-Copy `config.yaml.example` to `config.yaml` and fill in keys for:
-- **Shodan** — port/service data
-- **VirusTotal** — threat intelligence
-- **HaveIBeenPwned** — breach data
-- **Hunter.io** — email enumeration
-- **Censys / ZoomEye** — internet scanning
+> [!CAUTION]
+> **Only scan targets you own or have written permission to test.**
+> Running OSINT scans against targets without authorization may violate computer crime laws in your country (e.g., CFAA in the US, Computer Misuse Act in the UK).
+> The authors of this tool are **not responsible** for any misuse.
 
-More keys = more modules = better results. All keys are optional.
-
----
-
-## <i class="fa-solid fa-chart-column"></i> Reports
-
-Reports are saved in `./reports/` by default:
-
-| Format | Contents |
-|--------|----------|
-| `.html` | Interactive report with dark theme, collapsible sections, navigation |
-| `.json` | Full structured results with metadata + summary |
-| `.csv`  | Flat event list — import to Excel/Sheets |
+**Acceptable use:**
+- 🏠 Domains and servers you own
+- 🐛 Bug bounty programs (within their defined scope)
+- 🎮 CTF (Capture The Flag) challenge targets
+- 🔬 Security research on test environments
+- 🔍 Investigating your own digital footprint
 
 ---
 
-## <i class="fa-solid fa-wrench"></i> Requirements
+## 👏 Credits
 
-- Python 3.10+
-- git
-- Internet access (for SpiderFoot clone + module data)
+Built on top of [SpiderFoot](https://github.com/smicallef/spiderfoot) — the open-source OSINT automation platform.
 
-Optional system tools (for active modules):
-- `nmap` — port scanning
-- `openssl` — SSL analysis
-
----
-
-## <i class="fa-solid fa-gear"></i> Custom Profiles
-
-Edit `profiles/profiles.yaml` to create your own profiles:
-
-```yaml
-profiles:
-  myprofile:
-    name: "My Custom Profile"
-    description: "Custom module selection"
-    estimated_time: "10 min"
-    modules:
-      - sfp_dnsresolve
-      - sfp_ssl
-      - sfp_whois
-      # ... add more SF module names
-```
-
----
-
-## <i class="fa-solid fa-screwdriver-wrench"></i> Advanced Operations (Core Modules)
-
-The newly introduced modules in the `/core` directory add support for compliance, auditing, OPSEC proxying, bulk scanning, and report labeling:
-
-### <i class="fa-solid fa-scale-balanced"></i> Legal Disclaimer (`core/disclaimer.py`)
-Ensures authorization compliance prior to execution. Before any scanning is performed, the user must consent to the legal terms:
-- **State Preservation:** Stores a hashed consent identifier in `.disclaimer_accepted` for each user so validation is only required once.
-- **Audit Integration:** Disclaimer acceptance is immediately recorded in the tamper-evident audit logs.
-
-### <i class="fa-solid fa-shield-halved"></i> Allowed Scope Validation (`core/scope.py`)
-Restricts scanning strictly to authorized targets to prevent accidental out-of-scope probes:
-- **Scope File:** Defined in `scope.txt` (a default template is created automatically if missing).
-- **Rule Syntax:** Supports domains (`example.com`), subdomains (`*.example.com`), IPs, subnet ranges/CIDRs (`10.0.0.0/8`), email patterns (`*@example.com`), and wildcards (`*`).
-- **Safety Enforcement:** Blocks any scan attempting to probe a target not present in the allowed scope. An empty `scope.txt` defaults to allowing all targets for development convenience.
-
-### <i class="fa-solid fa-file-signature"></i> Tamper-Evident Audit Logging (`core/audit.py`)
-Maintains a cryptographic chain-of-custody logging all operations in `audit.log`:
-- **Chained Hashing:** Each log entry (scan start, end, disclaimer acceptance) calculates a SHA-256 hash incorporating the previous entry's hash (`prev_hash`), making the log tamper-evident.
-- **Verification Engine:** Features a `verify_chain()` utility that checks for log line modifications, insertions, or deletions.
-- **File System Guard:** Dynamically locks file access (chmod 0444 read-only / 0644 read-write) to restrict manual modification.
-
-### <i class="fa-solid fa-globe"></i> OPSEC Proxy & Tor Routing (`core/proxy.py`)
-Secures network traffic and preserves anonymity during scans:
-- **Tor Native Support:** Configures SOCKS5 and Tor client redirection (`socks5h://127.0.0.1:9050`).
-- **Pre-flight Checks:** Verifies proxy/Tor availability via `check.torproject.org` and queries current exit IP via `api.ipify.org` before execution.
-- **Proxy Configuration:** Automatically configures standard environment proxy variables (`OSINT_PROXY`, `HTTP_PROXY`, `HTTPS_PROXY`).
-
-### <i class="fa-solid fa-traffic-light"></i> Traffic Light Protocol (`core/tlp.py`)
-Applies data distribution labels to output reports based on the NATO/FIRST standards:
-- **Classifications:** Supports `TLP:RED` (strictly confidential), `TLP:AMBER` (limited internal), `TLP:GREEN` (community-limited), and `TLP:WHITE` (public).
-- **Visual Branding:** Generates HTML banners and footers embedded with correct color coding, operator metadata, and sharing restrictions.
-
-### <i class="fa-solid fa-inbox"></i> Bulk Batch Scanning (`core/batch.py`)
-Supports automated scanning of multiple targets:
-- **Batch Files:** Loads targets from plain-text files (supports comments with `#`).
-- **Control Flow:** Progresses sequentially, polling SpiderFoot REST API, enforcing delays between targets, and exporting HTML, JSON, and CSV reports.
-- **CLI Visualization:** Renders a summary table using the [Rich](https://github.com/Textualize/rich) library with statuses, event counts, open ports, and breach indicators.
-
----
-
-## <i class="fa-solid fa-shield-halved"></i> Legal & Ethics
-
-Use this tool only against targets you have explicit permission to test.
-Unauthorized scanning is illegal and unethical. The authors are not responsible for misuse.
+Wrapper, CLI, profiles, and reporting by **N-EX / Fujimaru** — Kalimantan Timur.
 
 ---
 
