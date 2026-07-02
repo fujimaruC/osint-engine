@@ -17,7 +17,7 @@ from typing import Optional
 class SpiderFootAPI:
     """Manages SpiderFoot process lifecycle and REST API interaction."""
 
-    def __init__(self, host: str = "127.0.0.1", port: int = 5001):
+    def __init__(self, host: str = "127.0.0.1", port: int = 5003):
         self.host = host
         self.port = port
         self.base_url = f"http://{host}:{port}"
@@ -88,7 +88,9 @@ class SpiderFootAPI:
         target_type: str,
         modules: list[str],
         use_types: list[str] | None = None,
+        usecase: str = "all",
     ) -> str:
+        import re as _re
         """
         Create a new scan. Returns scan ID.
 
@@ -97,20 +99,33 @@ class SpiderFootAPI:
         """
         payload = {
             "scanname": scan_name,
-            "scantarget": target,
-            "targettype": target_type,
+            "scantarget": (f'"{target}"' if target_type in ("USERNAME", "HUMAN_NAME") else target),
             "modulelist": ",".join(modules),
             "typelist": ",".join(use_types) if use_types else "",
+            "usecase":    usecase,
         }
 
         r = requests.post(
             f"{self.base_url}/startscan",
             data=payload,
             timeout=30,
+            allow_redirects=False,
         )
+        
+        if r.status_code in (301, 302, 303, 307, 308):
+            location = r.headers.get("Location", "")
+            match = _re.search(r"[?&]id=([^&]+)", location)
+            if match:
+                return match.group(1)
+        raise ValueError(f"Redirect received but no scan ID found in: {location}")
+        
         r.raise_for_status()
         data = r.json()
-        return data.get("id") or data[0]  # SF returns ["id"]
+        if isinstance(data, dict):
+            return data.get("id") or list(data.values())[0]
+        if isinstance(data, list):
+            return data[0]
+        return str(data)
 
     def scan_status(self, scan_id: str) -> dict:
         """Get scan status and summary."""

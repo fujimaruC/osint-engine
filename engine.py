@@ -83,7 +83,7 @@ def cli():
 @click.option("--target-type", default=None,
               help="Override target type detection (e.g. INTERNET_NAME, EMAILADDR)")
 @click.option("--host", default="127.0.0.1", show_default=True, help="SpiderFoot host")
-@click.option("--port", default=5001, show_default=True, help="SpiderFoot port")
+@click.option("--port", default=5003, show_default=True, help="SpiderFoot port")
 @click.option("--no-html", is_flag=True, help="Skip HTML report")
 @click.option("--no-json", is_flag=True, help="Skip JSON export")
 @click.option("--no-csv", is_flag=True, help="Skip CSV export")
@@ -259,7 +259,7 @@ def profiles():
 
 @cli.command()
 @click.option("--host", default="127.0.0.1")
-@click.option("--port", default=5001)
+@click.option("--port", default=5003)
 def status(host, port):
     """Check SpiderFoot backend status and list recent scans."""
     print_banner()
@@ -319,7 +319,7 @@ def status(host, port):
 @cli.command()
 @click.argument("scan_id")
 @click.option("--host", default="127.0.0.1")
-@click.option("--port", default=5001)
+@click.option("--port", default=5003)
 @click.option("--filter", "event_filter", default=None, help="Filter by event type")
 @click.option("--export", is_flag=True, help="Also export reports")
 @click.option("-o", "--output", default=None)
@@ -357,7 +357,7 @@ def results(scan_id, host, port, event_filter, export, output):
 @cli.command()
 @click.argument("scan_id")
 @click.option("--host", default="127.0.0.1")
-@click.option("--port", default=5001)
+@click.option("--port", default=5003)
 def stop(scan_id, host, port):
     """Abort a running scan."""
     sf = SpiderFootAPI(host=host, port=port)
